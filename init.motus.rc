@@ -36,6 +36,7 @@ on boot
     mkdir /data/misc/wifi 0770 wifi wifi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/dhcp 0770 dhcp dhcp
+    mkdir /data/misc/cal 0770 system system
     mkdir /data/radio 0770 radio radio
 
     chmod 666 /dev/oncrpc/3000000e:d0b61921
@@ -44,28 +45,25 @@ on boot
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
     chmod 0660                /sys/class/rfkill/rfkill0/state
-    chown bluetooth bluetooth /sys/module/board_motus/parameters/bluetooth_power_on
-    chown bluetooth bluetooth /sys/module/board_motus/parameters/bluetooth_power_on
-    chmod 0660 /sys/module/board_motus/parameters/bluetooth_power_on
-    chown bluetooth bluetooth /proc/bt_power
-    chmod 0666 /proc/bt_power
-    chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
-    chown bluetooth bluetooth /proc/bluetooth/sleep/proto
     chown system system /sys/module/sco/parameters/disable_esco
-    chmod 0660 /sys/module/bluetooth_power/parameters/power
-    chmod 0660 /proc/bluetooth/sleep/proto
     chown bluetooth bluetooth /dev/ttyHS0
     chmod 0660 /dev/ttyHS0
-    ln -s /dev/ttyHS0 /dev/ttyMSM0
+    symlink /dev/ttyHS0 /dev/ttyMSM0
     chmod 0666 /dev/msm_snd
-    chown system camera /dev/msm_camera0
+    chown system camera /dev/msm_camera/msm_camera0
+    chown system camera /dev/camera0
+    chmod 0664 /dev/camera0
+    chown system camera /dev/video20
+    chmod 0664 /dev/video20
+    symlink /dev/graphics/fb0 /dev/fb0
+    chmod 0666 /dev/graphics/fb0
     #  E-compass
     chown system system /dev/akm8973_aot
     chown system system /dev/akm8973_dev
-    chmod 0660 /dev/akm8973_dev
+    chmod 0640 /dev/akm8973_dev
     # proximity
     chown system system /sys/devices/platform/sfh7743.-2/proximity
-    
+    symlink /sys/devices/platform/sfh7743.-2/proximity /dev/proximity
     # radio
     chown root radio /proc/cmdline
 
@@ -82,6 +80,7 @@ on boot
     chmod 0660 /sys/power/wake_lock
     chmod 0660 /sys/power/wake_unlock
     setprop hw.keyboards.0.devname adp5588_motus
+    chown system camera /sys/class/leds/flashlight/brightness
     chown system system /sys/class/leds/keyboard-backlight/brightness
     chmod 0660 /sys/class/leds/keyboard-backlight/brightness
     chown system system /sys/class/leds/keyboard-tcmd/brightness
@@ -93,7 +92,6 @@ on boot
     chown system system /sys/class/leds/lcd-backlight/suspend
     chown system system /sys/class/leds/lcd-nr-backlight/brightness
     chown system system /sys/class/leds/button-tcmd/brightness
-    chown media media /sys/class/leds/af-led/brightness 
     chown system system /sys/class/leds/button-backlight/brightness
     chmod 0660 /sys/class/leds/button-backlight/brightness
     chown system system /sys/class/leds/messaging/brightness
@@ -102,7 +100,6 @@ on boot
     chown system system /sys/class/leds/soc/blink
     chown system system /dev/als
     chmod 0664 /dev/als
-    chown system system /sys/class/timed_output/vibrator/enable
     chown system system /sys/module/sco/parameters/disable_esco
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown system system /dev/proximity
@@ -123,8 +120,7 @@ on boot
 
 # Vibrator
     chown system system /sys/class/vibrator/vibrator/enable
-    chown system system /sys/class/timed_output/vibrator/enable
-
+    chmod 0664 /sys/class/vibrator/vibrator/enable
 
 # 12m
     mkdir /data/local/12m 0771 system system
@@ -144,7 +140,7 @@ on boot
     chmod 0664 /dev/touchpad
 
 # Minipad
-    chown system input /dev/minipad
+    chown system system /dev/minipad
     chmod 0664 /dev/minipad
 
 # Camera LED brightness attributes accessible to all
@@ -185,10 +181,10 @@ on boot
 
 
     # cpufreq configurations
-#    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 245760
-#    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
-#    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 40000
-#    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 85
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 245760
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 40000
+    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 85
 
     # lowmemkiller adjustments   
     write /sys/module/lowmemorykiller/parameters/adj 0,1,2,7,14,15
@@ -208,15 +204,15 @@ on boot
 # E-Compass  daemon
 service akmd2 /system/bin/akmd2 -f /system/etc/akm/akmd_set.cfg
     user system
-    group input compass system misc
+    group misc input compass system
     oneshot
 
 ## TCMD
-service tcmd /system/bin/tcmd_engine usb0
+#service tcmd /system/bin/tcmd_engine usb0
 
 
-service port_bridge /system/bin/port_bridge /dev/smd0 /dev/ttyHSUSB0
-    oneshot
+#service port_bridge /system/bin/port_bridge /dev/smd0 /dev/ttyHSUSB0
+#    oneshot
 
 service fuel_gauge /system/bin/fuel_gauge --all
     group system
@@ -232,13 +228,13 @@ service wpa_supplicant /system/bin/wpa_supplicant  -Dwext -ieth0 -c/data/misc/wi
     disabled
     oneshot
 
-service dhcpcd /system/bin/dhcpcd -ABKL eth0
-    group dhcp
+service dhcpcd /system/bin/dhcpcd -ABKL
     disabled
     oneshot
 
 #bluetooth 
-service hciattach /system/bin/init.bt.sh
+#service hciattach /system/bin/bt_init /system/etc/bt_init.config
+service hciattach /system/bin/brcm_patchram_plus --enable_hci --baudrate 3000000  --patchram /system/etc/firmware/bcm4325.hcd /dev/ttyHS0
     user bluetooth
     group bluetooth net_bt_admin net_admin net_raw misc
     disabled
@@ -255,7 +251,26 @@ service modemlog /system/bin/modemlog
     user system
     oneshot
 
-service minipadut /system/bin/minipadut -a
+service minipad_firmware /system/bin/minipadut -a
    user system 
    group input misc
    oneshot
+
+service minipad_on /system/bin/minipadut -enable
+   user system
+   group input misc
+   oneshot
+   disabled
+
+service minipad_off /system/bin/minipadut -disable
+   user system
+   group input misc
+   oneshot
+   disabled
+
+on property:persist.service.backtrack=1
+    start minipad_on
+
+on property:persist.service.backtrack=0
+    start minipad_off
+

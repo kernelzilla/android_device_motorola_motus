@@ -1,0 +1,15 @@
+# Aliases extracted from modules themselves.
+alias char-major-10-229 fuse
+alias char-major-10-200 tun
+alias input:b*v*p*e*-e*k*r*a*m*l*s*f*w* evbug
+alias ip6t_hashlimit xt_hashlimit
+alias ipt_hashlimit xt_hashlimit
+alias nf_conntrack-10 nf_conntrack_ipv6
+alias xfrm-type-10-51 ah6
+alias xfrm-type-10-50 esp6
+alias xfrm-type-10-108 ipcomp6
+alias xfrm-type-10-41 xfrm6_tunnel
+alias xfrm-mode-10-0 xfrm6_mode_transport
+alias xfrm-mode-10-1 xfrm6_mode_tunnel
+alias xfrm-mode-10-4 xfrm6_mode_beet
+alias sit0 sit

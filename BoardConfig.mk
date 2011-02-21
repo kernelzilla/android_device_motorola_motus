@@ -1,4 +1,5 @@
 # Copyright (C) 2007 The Android Open Source Project
+# Copyright (C) 2011 Kinetic Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,7 +32,7 @@ TARGET_CPU_ABI2 := armeabi
 TARGET_ARCH_VARIANT := armv6j
 TARGET_BOARD_PLATFORM_GPU := qcom
 
-#TARGET_NO_BOOTLOADER := true
+TARGET_NO_BOOTLOADER := true
 
 # Wifi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := WEXT
@@ -43,22 +44,13 @@ WIFI_DRIVER_FW_AP_PATH      := "/system/etc/firmware/fw_bcm4325_apsta.bin"
 WIFI_DRIVER_MODULE_ARG      := "firmware_path=/system/etc/firmware/fw_bcm4325.bin nvram_path=/system/etc/firmware/nvram.txt"
 WIFI_DRIVER_MODULE_NAME     := "dhd"
 
-TARGET_BOOTLOADER_LIBS := \
-	libboot_board_motus \
-	libboot_arch_msm7k \
-	libboot_arch_armv6
-
-TARGET_BOOTLOADER_LINK_SCRIPT := \
-	hardware/msm7k/boot/boot.ld
-
 BOARD_KERNEL_CMDLINE := no_console_suspend=1 console=null quiet
-
-BOARD_PREBUILT_LIBAUDIO := true
 
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 
 BOARD_VENDOR_USE_AKMD := akm8973
+BOARD_GPS_LIBRARIES := libgps
 
 BOARD_VENDOR_QCOM_AMSS_VERSION := 6225
 
@@ -68,24 +60,23 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 # OpenGL drivers config file path
 BOARD_EGL_CFG := device/motorola/motus/prebuilt/lib/egl/egl.cfg
 
-BOARD_NO_RGBX_8888 := true
-
-# Use libcamera2
-BOARD_USES_OLD_CAMERA_HACK := true
-
-# No authoring clock for OpenCore on Motus
+#BOARD_USES_ECLAIR_LIBCAMERA := true
+BOARD_USES_MOT7X01A_ECLAIR_LIBCAMERA := true
 BOARD_NO_PV_AUTHORING_CLOCK := true
 
+BOARD_USES_QCOM_HARDWARE := true
 BOARD_USES_QCOM_LIBS := true
+BUILD_WITH_FULL_STAGEFRIGHT := true
+#BUILD_PV_VIDEO_ENCODERS := 1
+#BUILD_PV_2WAY := 1
 
-#bootloopy
-#BOARD_USES_ECLAIR_LIBCAMERA := true
+BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/motorola/motus/vibrator.c
 
 TARGET_RELEASETOOLS_EXTENSIONS := device/motorola/common
 
 TARGET_BOOTLOADER_BOARD_NAME := motus
 TARGET_OTA_ASSERT_DEVICE := motus
-PRODUCT_BUILD_PROP_OVERRIDES += TARGET_BOOTLOADER_BOARD_NAME=motus
+TARGET_BOOTLOADER_BOARD_NAME := motus
 
 
 # # cat /proc/mtd
@@ -102,12 +93,13 @@ BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x00500000
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 0x08ac0000
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x0df80000
 BOARD_RECOVERYIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x00500000)
+BOARD_HIJACK_RECOVERY_PATH := /dev/block/mtdblock3
 
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_PAGE_SIZE := 0x800
 
 BOARD_CUSTOM_RECOVERY_KEYMAPPING:= ../../device/motorola/motus/recovery/recovery_ui.c
-
+TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/motus/recovery_kernel
 
 #TARGET_RECOVERY_UI_LIB := librecovery_ui_motus librecovery_ui_moto
 TARGET_PREBUILT_KERNEL := device/motorola/motus/kernel

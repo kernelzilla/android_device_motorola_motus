@@ -32,7 +32,7 @@ key 106   DPAD_RIGHT        WAKE_DROPPED
 key 115   VOLUME_UP
 key 114   VOLUME_DOWN
 key 116   POWER             WAKE
-key 212   CAMERA
+key 212   CAMERA            WAKE
 
 key 16    Q
 key 17    W

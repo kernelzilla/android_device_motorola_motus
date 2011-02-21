@@ -45,6 +45,7 @@ gpslocationprovider.coldstart=0
 mot.proximity.delay=1
 persist.cust.tel.eons=1
 ro.mot.hw.minipad=1
+ro.backtrack.default=1
 ro.mot.trackball.threshold=5
 ro.mot.trackball.maxdelay=350
 ro.mot.trackball.maxaccel=6

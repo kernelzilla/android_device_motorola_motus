@@ -15,6 +15,27 @@
 -->
 
 <resources>
+
+    <!-- Flag indicating whether the Phone app should ignore
+         EVENT_SIM_NETWORK_LOCKED events from the Sim.  If true, this will
+         prevent the IccNetworkDepersonalizationPanel from being shown,
+         and effectively disable the "Sim network lock" feature. -->
+    <bool name="ignore_sim_network_locked_events">false</bool>
+
     <bool name="allow_incoming_call_touch_ui">true</bool>
-    <bool name="allow_in_call_touch_ui">false</bool>
+    <bool name="allow_in_call_touch_ui">true</bool>
+    <bool name="send_mic_mute_to_AudioManager">true</bool>
+
+    <!-- This is a device with capacitive buttons, so disable the feature
+         where BACK rejects the current incoming call.  (Since it's so
+         easy to press the key accidentally as you pull the phone out of
+         your pocket.) -->
+    <bool name="allow_back_key_to_reject_incoming_call">false</bool>
+
+    <!-- Flag indicating if the tty is enabled -->
+    <bool name="tty_enabled">false</bool>
+
+    <!-- Flag indicating if hac is enabled -->
+    <bool name="hac_enabled">false</bool>
+
 </resources>

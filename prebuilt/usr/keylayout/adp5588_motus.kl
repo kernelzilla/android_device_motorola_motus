@@ -17,7 +17,7 @@ key 26     P		     WAKE_DROPPED
 key 27     ENVELOPE	     WAKE_DROPPED
 			     
 # CAMERA   CAPTURE	     
-key 31     CAMERA	     
+key 31     CAMERA	     WAKE 
 key 32     H		     WAKE_DROPPED
 # CAMERA   FOCUS	     
 key 33     FOCUS	     
@@ -40,7 +40,7 @@ key 53     VOLUME_UP         WAKE
 key 54     V                 WAKE_DROPPED
 key 55     Y                 WAKE_DROPPED
 key 56     HOME              WAKE_DROPPED
-key 57     EXPLORER          WAKE_DROPPED
+key 57     EXPLORER          WAKE
 
 key 61     F                 WAKE_DROPPED
 key 62     SEARCH 	     WAKE_DROPPED
@@ -63,14 +63,4 @@ key 102    HOME              WAKE
 key 116    POWER             WAKE
 key 158    BACK              WAKE
 key 226    HEADSETHOOK       WAKE
-
-
-
-
-
-
-
-
-
-
  

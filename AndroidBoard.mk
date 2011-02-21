@@ -15,7 +15,7 @@
 LOCAL_PATH := $(call my-dir)
 
 # from device/motorola/motus
-file := $(TARGET_OUT_KEYLAYOUT)/prebuilt/usr/keylayout/motus-kpd.kl
+file := $(TARGET_OUT_KEYLAYOUT)/motus-kpd.kl
 ALL_PREBUILT += $(file)
 $(file) : $(LOCAL_PATH)/prebuilt/usr/keylayout/motus-kpd.kl | $(ACP)
 	$(transform-prebuilt-to-target)
@@ -24,10 +24,6 @@ file := $(TARGET_ROOT_OUT)/init.motus.rc
 ALL_PREBUILT += $(file)
 $(file) : $(LOCAL_PATH)/init.motus.rc | $(ACP)
 	$(transform-prebuilt-to-target)
-
-include $(CLEAR_VARS)
-LOCAL_SRC_FILES := prebuilt/usr/keychars/motus-kpd.kcm
-include $(BUILD_KEY_CHAR_MAP)
 
 file := $(TARGET_OUT_KEYLAYOUT)/adp5588_motus.kl
 ALL_PREBUILT += $(file)

@@ -1,4 +1,4 @@
-# Copyright (C) 2008 The Android Open Source Project
+# Copyright (C) 2011 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,13 +15,17 @@
 
 LOCAL_PATH:= $(call my-dir)
 # HAL module implemenation, not prelinked and stored in
-# hw/<COPYPIX_HARDWARE_MODULE_ID>.<ro.product.board>.so
+# hw/<COPYPIX_HARDWARE_MODULE_ID>.<ro.board.platform>.so
+
+ifeq ($(TARGET_BOOTLOADER_BOARD_NAME),motus)
 include $(CLEAR_VARS)
 LOCAL_PRELINK_MODULE := false
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_SHARED_LIBRARIES := liblog
-LOCAL_SRC_FILES := copybit.c
-LOCAL_MODULE := copybit.$(TARGET_DEVICE)
+LOCAL_SRC_FILES := copybit.cpp
+LOCAL_MODULE := copybit.motus
 LOCAL_C_INCLUDES += hardware/msm7k/libgralloc
 LOCAL_CFLAGS += -DCOPYBIT_MSM7K=1
 include $(BUILD_SHARED_LIBRARY)
+endif
+
