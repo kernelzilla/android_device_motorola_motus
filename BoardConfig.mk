@@ -36,7 +36,7 @@ TARGET_NO_BOOTLOADER := true
 
 # Wifi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := WEXT
-WPA_SUPPLICANT_VERSION      := VER_0_6_X
+WPA_SUPPLICANT_VERSION      := VER_0_5_X
 BOARD_WLAN_DEVICE           := dhd
 WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/dhd.ko"
 WIFI_DRIVER_FW_STA_PATH     := "/system/etc/firmware/fw_bcm4325.bin"
@@ -46,13 +46,20 @@ WIFI_DRIVER_MODULE_NAME     := "dhd"
 
 BOARD_KERNEL_CMDLINE := no_console_suspend=1 console=null quiet
 
+# enable broadcom patchram
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 
+# accel/gps
 BOARD_VENDOR_USE_AKMD := akm8973
 BOARD_GPS_LIBRARIES := libgps
 
 BOARD_VENDOR_QCOM_AMSS_VERSION := 6225
+
+BOARD_HAVE_FM_RADIO := true
+
+#build our own libaudio
+BOARD_PROVIDES_LIBAUDIO := true
 
 # The size of a block that can be marked bad.
 BOARD_FLASH_BLOCK_SIZE := 131072
@@ -60,22 +67,22 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 # OpenGL drivers config file path
 BOARD_EGL_CFG := device/motorola/motus/prebuilt/lib/egl/egl.cfg
 
-#BOARD_USES_ECLAIR_LIBCAMERA := true
-BOARD_USES_MOT7X01A_ECLAIR_LIBCAMERA := true
+# needed for video authoring
 BOARD_NO_PV_AUTHORING_CLOCK := true
-
+# oepncore
 BOARD_USES_QCOM_HARDWARE := true
 BOARD_USES_QCOM_LIBS := true
-BUILD_WITH_FULL_STAGEFRIGHT := true
+#BUILD_WITH_FULL_STAGEFRIGHT := true
 #BUILD_PV_VIDEO_ENCODERS := 1
 #BUILD_PV_2WAY := 1
 
+# haptic feedback
 BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/motorola/motus/vibrator.c
 
 TARGET_RELEASETOOLS_EXTENSIONS := device/motorola/common
 
 TARGET_BOOTLOADER_BOARD_NAME := motus
-TARGET_OTA_ASSERT_DEVICE := motus
+TARGET_OTA_ASSERT_DEVICE := motus,backflip
 TARGET_BOOTLOADER_BOARD_NAME := motus
 
 
@@ -100,6 +107,9 @@ BOARD_PAGE_SIZE := 0x800
 
 BOARD_CUSTOM_RECOVERY_KEYMAPPING:= ../../device/motorola/motus/recovery/recovery_ui.c
 TARGET_PREBUILT_RECOVERY_KERNEL := device/motorola/motus/recovery_kernel
+
+#write message to the misc partition to initiate recovery mode
+BOARD_RECOVERY_WRITE_MISC := true
 
 #TARGET_RECOVERY_UI_LIB := librecovery_ui_motus librecovery_ui_moto
 TARGET_PREBUILT_KERNEL := device/motorola/motus/kernel

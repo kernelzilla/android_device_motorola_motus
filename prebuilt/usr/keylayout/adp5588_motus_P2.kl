@@ -51,7 +51,7 @@ key 65     U		     WAKE_DROPPED
 key 66     R		     WAKE_DROPPED
 key 67     DPAD_CENTER	     WAKE_DROPPED
 
-key 71     SYM               WAKE_DROPPED
+key 71     LEFT_BRACKET
 key 72     K                 WAKE_DROPPED
 key 73     SPACE             WAKE_DROPPED
 key 74     B                 WAKE_DROPPED

@@ -26,9 +26,14 @@
 #include <hardware_legacy/AudioHardwareBase.h>
 
 extern "C" {
-#include <msm_audio.h>
+#include "msm_audio.h"
 #include <msm_audio_voicememo.h>
 }
+
+#define DEVICE_OUT_TTY 0x2000
+#define DEVICE_OUT_FM_HEADSET 0x0800
+#define DEVICE_OUT_FM_SPEAKER 0x1000
+
 
 namespace android {
 
@@ -209,7 +214,9 @@ private:
     status_t    dumpInternals(int fd, const Vector<String16>& args);
     uint32_t    getInputSampleRate(uint32_t sampleRate);
     bool        checkOutputStandby();
+    int getHeadsetType();
     status_t    doRouting(AudioStreamInMSM72xx *input);
+    status_t    checkInputSampleRate(uint32_t sampleRate);
     AudioStreamInMSM72xx*   getActiveInput_l();
 
     class AudioStreamOutMSM72xx : public AudioStreamOut {
@@ -307,6 +314,27 @@ private:
 
      friend class AudioStreamInMSM72xx;
             Mutex       mLock;
+            int SND_DEVICE_CURRENT;
+            int SND_DEVICE_HANDSET;
+            int SND_DEVICE_SPEAKER;
+            int SND_DEVICE_HEADSET;
+            int SND_DEVICE_BT;
+            int SND_DEVICE_CARKIT;
+            int SND_DEVICE_TTY_FULL;
+            int SND_DEVICE_TTY_VCO;
+            int SND_DEVICE_TTY_HCO;
+            int SND_DEVICE_NO_MIC_HEADSET;
+            int SND_DEVICE_FM_HEADSET;
+            int SND_DEVICE_HEADSET_AND_SPEAKER;
+            int SND_DEVICE_FM_SPEAKER;
+            int SND_DEVICE_BT_EC_OFF;
+            int SND_DEVICE_DUALMIC_SPEAKER;
+            int SND_DEVICE_TTY_HEADSET;
+            int SND_DEVICE_HEADPHONE;
+	    int SND_DEVICE_IN_S_SADC_OUT_HANDSET;
+            int SND_DEVICE_IN_S_SADC_OUT_SPEAKER_PHONE;
+            int SND_DEVICE_HEADSET_MOS;
+
 };
 
 // ----------------------------------------------------------------------------

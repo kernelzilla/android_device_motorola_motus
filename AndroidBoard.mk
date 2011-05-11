@@ -68,6 +68,7 @@ $(file) : $(LOCAL_PATH)/prebuilt/usr/keylayout/headset.kl | $(ACP)
 
 ALL_PREBUILT += $(INSTALLED_KERNEL_TARGET)
 
+
 include $(CLEAR_VARS)
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE := vold.fstab

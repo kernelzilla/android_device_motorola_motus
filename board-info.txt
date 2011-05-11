@@ -1,1 +1,1 @@
-require board=motus
+require board=motus|backflip

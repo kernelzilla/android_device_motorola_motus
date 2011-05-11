@@ -1,17 +1,3 @@
-# Copyright (C) 2008 The Android Open Source Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 on early-init
     device mtd@misc 0660 system radio
 
@@ -39,7 +25,7 @@ on boot
     mkdir /data/misc/cal 0770 system system
     mkdir /data/radio 0770 radio radio
 
-    chmod 666 /dev/oncrpc/3000000e:d0b61921
+    chmod 0666 /dev/oncrpc/3000000e:d0b61921
 
     # bluetooth power up/down interface
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
@@ -66,6 +52,11 @@ on boot
     symlink /sys/devices/platform/sfh7743.-2/proximity /dev/proximity
     # radio
     chown root radio /proc/cmdline
+
+    #laptop mode
+    write /proc/sys/vm/dirty_writeback_centisecs 60000
+    write /proc/sys/vm/dirty_expire_centisecs 60000
+    write /proc/sys/vm/laptop_mode 5
 
     # wakelocks
     chown radio system /sys/android_power/state
@@ -117,6 +108,8 @@ on boot
     chmod 0660 /dev/smdcntl1
     chmod 0660 /dev/smdcntl2
 
+# sdcard performance adjustment
+    write /sys/block/mmcblk0/bdi/read_ahead_kb 4096
 
 # Vibrator
     chown system system /sys/class/vibrator/vibrator/enable
@@ -181,10 +174,14 @@ on boot
 
 
     # cpufreq configurations
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/sampling_rate
+
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 245760
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
-    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 40000
-    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 85
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 528000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
 
     # lowmemkiller adjustments   
     write /sys/module/lowmemorykiller/parameters/adj 0,1,2,7,14,15
@@ -215,7 +212,6 @@ service akmd2 /system/bin/akmd2 -f /system/etc/akm/akmd_set.cfg
 #    oneshot
 
 service fuel_gauge /system/bin/fuel_gauge --all
-    group system
     oneshot
 
 service qmuxd /system/bin/qmuxd
@@ -233,7 +229,6 @@ service dhcpcd /system/bin/dhcpcd -ABKL
     oneshot
 
 #bluetooth 
-#service hciattach /system/bin/bt_init /system/etc/bt_init.config
 service hciattach /system/bin/brcm_patchram_plus --enable_hci --baudrate 3000000  --patchram /system/etc/firmware/bcm4325.hcd /dev/ttyHS0
     user bluetooth
     group bluetooth net_bt_admin net_admin net_raw misc
@@ -243,12 +238,6 @@ service hciattach /system/bin/brcm_patchram_plus --enable_hci --baudrate 3000000
 service touchpad /system/bin/touchpad -a /data/touchpad.log
     user system
     group input misc
-    oneshot
-
-
-# Modemlog
-service modemlog /system/bin/modemlog
-    user system
     oneshot
 
 service minipad_firmware /system/bin/minipadut -a

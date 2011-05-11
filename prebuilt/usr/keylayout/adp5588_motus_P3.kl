@@ -40,7 +40,7 @@ key 53     VOLUME_UP
 key 54     V                 WAKE_DROPPED
 key 55     Y                 WAKE_DROPPED
 key 56     HOME              WAKE_DROPPED
-key 57     SYM               WAKE_DROPPED
+key 57     LEFT_BRACKET
 
 key 61     F                 WAKE_DROPPED
 key 62     SEARCH 	     WAKE_DROPPED

@@ -14,4 +14,4 @@
 
 LOCAL_PRELINK_MODULE := false
 
-include $(call all-named-subdir-makefiles, libaudio libgralloc libcopybit liblights)
+include $(call all-named-subdir-makefiles, libaudio libcamera libgralloc libcopybit liblights)

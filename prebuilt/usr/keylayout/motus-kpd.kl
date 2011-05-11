@@ -1,4 +1,5 @@
 #  Motus  slider keys  keymap
 
 key 116   POWER             WAKE
+key 31    CAMERA            WAKE
 key 226   HEADSETHOOK       WAKE

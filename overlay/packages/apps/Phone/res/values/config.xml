@@ -24,7 +24,16 @@
 
     <bool name="allow_incoming_call_touch_ui">true</bool>
     <bool name="allow_in_call_touch_ui">true</bool>
+
     <bool name="send_mic_mute_to_AudioManager">true</bool>
+
+    <!-- If true, enable vibration (haptic feedback) for key presses
+         in the EmergencyDialer activity. The pattern is set on a
+         per-platform basis using config_virtualKeyVibePattern.  To be
+         consistent with the regular Dialer, this value should agree
+         with the corresponding values from config.xml under
+         apps/Contacts. -->
+    <bool name="config_enable_dialer_key_vibration">true</bool>
 
     <!-- This is a device with capacitive buttons, so disable the feature
          where BACK rejects the current incoming call.  (Since it's so
@@ -32,10 +41,8 @@
          your pocket.) -->
     <bool name="allow_back_key_to_reject_incoming_call">false</bool>
 
-    <!-- Flag indicating if the tty is enabled -->
     <bool name="tty_enabled">false</bool>
-
-    <!-- Flag indicating if hac is enabled -->
     <bool name="hac_enabled">false</bool>
+    <bool name="has_in_call_noise_suppression">false</bool>
 
 </resources>
